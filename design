@@ -1,0 +1,23 @@
+// Code your design here
+module rr_arbiter (
+    input clk, rst,
+    input [3:0] req,
+    output reg [3:0] grant
+);
+    reg [1:0] last_grant;
+
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            grant <= 4'b0000;
+            last_grant <= 2'd0;
+        end else begin
+            casez ({req[3:0], last_grant})
+                6'b1???00: grant <= 4'b0001;
+                6'b?1??01: grant <= 4'b0010;
+                6'b??1?10: grant <= 4'b0100;
+                6'b???110: grant <= 4'b1000;
+                default: grant <= 4'b0000;
+            endcase
+        end
+    end
+endmodule
