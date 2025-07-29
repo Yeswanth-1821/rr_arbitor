@@ -1,0 +1,17 @@
+// Code your testbench here
+// or browse Examples
+`timescale 1ns/1ps
+module tb_rr_arbiter;
+    reg clk = 0, rst = 0;
+    reg [3:0] req = 4'b1010;
+    wire [3:0] grant;
+
+    rr_arbiter uut (.clk(clk), .rst(rst), .req(req), .grant(grant));
+    always #5 clk = ~clk;
+
+    initial begin
+        $dumpfile("arbiter.vcd"); $dumpvars(0, tb_rr_arbiter);
+        rst = 1; #10; rst = 0;
+        #200 $finish;
+    end
+endmodule
